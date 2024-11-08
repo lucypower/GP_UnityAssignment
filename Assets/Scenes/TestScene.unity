@@ -153,10 +153,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whiteCube: {fileID: 4685759372077759794, guid: 7103330d91aa0844cabf9006d2688a9e, type: 3}
   m_blackCube: {fileID: 5044446375974808383, guid: 6c4443031847a7e499350e7fd122a740, type: 3}
-  m_height: 10
-  m_width: 10
-  m_iterations: 0
-  m_density: 0.5
+  m_height: 100
+  m_width: 100
+  m_iterations: 10
+  m_density: 0.52
 --- !u!4 &1219818502
 Transform:
   m_ObjectHideFlags: 0
@@ -351,13 +351,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760100517}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

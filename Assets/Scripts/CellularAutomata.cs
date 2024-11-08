@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CellularAutomata : MonoBehaviour
 {
-    int[,] m_grid;
-    int[,] m_tempNewGrid;
+    int[,] m_grid, m_tempNewGrid;
 
     [SerializeField] GameObject m_whiteCube, m_blackCube;
 
@@ -17,31 +16,18 @@ public class CellularAutomata : MonoBehaviour
     {
         GenerateGrid();
 
-
-        //for (int i = 0; i < m_iterations; i++)
-        //{
-        //    IterateGrid();
-        //}
+        for (int i = 0; i < m_iterations; i++)
+        {
+            IterateGrid();
+        }
 
         InstantiateGrid();
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("P");
-
-            IterateGrid();
-
-            InstantiateGrid();
-        }
     }
 
     public void GenerateGrid()
     {
         m_grid = new int[m_height, m_width];
-        m_tempNewGrid = m_grid;
+        m_tempNewGrid = new int[m_height, m_width]; 
 
         for (int i = 0; i < m_height; i++)
         {
@@ -97,10 +83,13 @@ public class CellularAutomata : MonoBehaviour
         {
             for (int neighbourY = y - 1; neighbourY <= y + 1; neighbourY++)
             {
-                if (neighbourX != 0 || neighbourY != 0)
+                if (neighbourX >= 0 && neighbourX < m_height && neighbourY >= 0 && neighbourY < m_width)
                 {
-                    neighbouringWalls += m_grid[x, y];
-                }
+                    if (neighbourX != 0 || neighbourY != 0)
+                    {
+                        neighbouringWalls += m_grid[neighbourX, neighbourY];
+                    }
+                }                
             }
         }
 
@@ -123,14 +112,17 @@ public class CellularAutomata : MonoBehaviour
                 }
             }
         }
+    }
 
-        //if (m_grid[x, y] == 1)
-        //{
-        //    Instantiate(m_blackCube, new Vector3(x, 0, y), Quaternion.identity);
-        //}
-        //else
-        //{
-        //    Instantiate(m_whiteCube, new Vector3(x, 0, y), Quaternion.identity);
-        //}
+    public void RemoveGrid()
+    {
+        Debug.Log("GRID REMOVED");
+
+        GameObject[] m_tiles = GameObject.FindGameObjectsWithTag("Tile");
+
+        for (int i = 0; i < m_tiles.Length; i++)
+        {
+            Destroy(m_tiles[i]);
+        }
     }
 }
