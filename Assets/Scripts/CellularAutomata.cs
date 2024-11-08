@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,7 +53,7 @@ public class CellularAutomata : MonoBehaviour
                 }
                 else
                 {
-                    m_grid[i, j] = Random.value > m_density ? 0 : 1;
+                    m_grid[i, j] = UnityEngine.Random.value > m_density ? 0 : 1;
                 }
             }
         }        
@@ -82,8 +83,6 @@ public class CellularAutomata : MonoBehaviour
             for (int j = 0; j < m_width; j++)
             {
                 m_grid[i, j] = m_tempNewGrid[i, j];
-
-                // copy new grid to old grid
             }
         }
 

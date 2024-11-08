@@ -153,8 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whiteCube: {fileID: 4685759372077759794, guid: 7103330d91aa0844cabf9006d2688a9e, type: 3}
   m_blackCube: {fileID: 5044446375974808383, guid: 6c4443031847a7e499350e7fd122a740, type: 3}
-  m_height: 25
-  m_width: 25
+  m_height: 10
+  m_width: 10
   m_iterations: 0
   m_density: 0.5
 --- !u!4 &1219818502
