@@ -132,8 +132,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1219818502}
   - component: {fileID: 1219818501}
+  - component: {fileID: 1219818503}
   m_Layer: 0
-  m_Name: CAGenerator
+  m_Name: ~Manager~
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,8 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de203965a51b40240b84eb15b2ba133d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_openSpaces: []
   m_whiteCube: {fileID: 4685759372077759794, guid: 7103330d91aa0844cabf9006d2688a9e, type: 3}
   m_blackCube: {fileID: 5044446375974808383, guid: 6c4443031847a7e499350e7fd122a740, type: 3}
+  m_floor: {fileID: 3986918863259228873, guid: fb91d19dbd780824da1a6f3d003c6883, type: 3}
   m_height: 100
   m_width: 100
   m_iterations: 10
@@ -166,12 +169,25 @@ Transform:
   m_GameObject: {fileID: 1219818500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.818791, y: -1.3305516, z: -1.4377217}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1219818503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219818500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619b0c13369964a47ab393255e64a25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_player: {fileID: 8571412742218056361, guid: 7f77b6559b2763e46ab5b90692df7840, type: 3}
 --- !u!1 &1282506886
 GameObject:
   m_ObjectHideFlags: 0

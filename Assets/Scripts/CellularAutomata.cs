@@ -7,7 +7,9 @@ public class CellularAutomata : MonoBehaviour
 {
     int[,] m_grid, m_tempNewGrid;
 
-    [SerializeField] GameObject m_whiteCube, m_blackCube;
+    [HideInInspector] public List<Vector3> m_openSpaces = new List<Vector3>();
+
+    [SerializeField] GameObject m_whiteCube, m_blackCube, m_floor;
 
     [SerializeField] int m_height, m_width, m_iterations;
     [SerializeField] float m_density;
@@ -22,12 +24,20 @@ public class CellularAutomata : MonoBehaviour
         }
 
         InstantiateGrid();
+
+        GameManager gM = GetComponent<GameManager>();
+        gM.SpawnPlayer();
     }
 
     public void GenerateGrid()
     {
         m_grid = new int[m_height, m_width];
-        m_tempNewGrid = new int[m_height, m_width]; 
+        m_tempNewGrid = new int[m_height, m_width];
+
+
+        GameObject floor = Instantiate(m_floor, new Vector3((m_height / 2) - 0.5f, 0, (m_width / 2) - 0.5f), Quaternion.identity);
+        floor.transform.localScale += new Vector3(m_height - 1, 0, m_width - 1);
+
 
         for (int i = 0; i < m_height; i++)
         {
@@ -108,21 +118,11 @@ public class CellularAutomata : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(m_whiteCube, new Vector3(i, 0, j), Quaternion.identity);
+                    //Instantiate(m_whiteCube, new Vector3(i, 0, j), Quaternion.identity);
+
+                    m_openSpaces.Add(new Vector3(i, 0, j));
                 }
             }
-        }
-    }
-
-    public void RemoveGrid()
-    {
-        Debug.Log("GRID REMOVED");
-
-        GameObject[] m_tiles = GameObject.FindGameObjectsWithTag("Tile");
-
-        for (int i = 0; i < m_tiles.Length; i++)
-        {
-            Destroy(m_tiles[i]);
         }
     }
 }
