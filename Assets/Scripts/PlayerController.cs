@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody m_RB;
 
-    Vector3 m_moveDirection;
+    Vector2 m_moveDirection;
 
     public float m_moveSpeed;
 
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        m_moveDirection = m_move.ReadValue<Vector3>();
+        m_moveDirection = m_move.ReadValue<Vector2>();
     }
 
     private void FixedUpdate()

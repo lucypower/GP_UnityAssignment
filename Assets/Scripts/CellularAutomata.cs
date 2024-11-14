@@ -120,7 +120,7 @@ public class CellularAutomata : MonoBehaviour
                 {
                     //Instantiate(m_whiteCube, new Vector3(i, 0, j), Quaternion.identity);
 
-                    m_openSpaces.Add(new Vector3(i, 0, j));
+                    m_openSpaces.Add(new Vector3(i, 1, j));
                 }
             }
         }
