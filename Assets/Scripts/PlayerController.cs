@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     InputAction m_move;
 
     Rigidbody m_RB;
+    Camera m_camera;
 
     Vector2 m_moveDirection;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         m_IA = new PlayerInputActions();
         m_RB = GetComponent<Rigidbody>();
+        m_camera = GameObject.Find("Camera").GetComponent<Camera>();
     }
 
     private void OnEnable()
@@ -30,6 +32,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         m_moveDirection = m_move.ReadValue<Vector2>();
+
+        if (m_moveDirection.x != 0 || m_moveDirection.y != 0)
+        {
+            Vector3 rotateDirection = Vector3.RotateTowards(transform.forward, new Vector3(m_moveDirection.x, 0, m_moveDirection.y), 10, 0);
+            transform.rotation = Quaternion.LookRotation(rotateDirection);
+        }
     }
 
     private void FixedUpdate()
