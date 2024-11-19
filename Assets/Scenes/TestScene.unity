@@ -160,8 +160,8 @@ MonoBehaviour:
   m_whiteCube: {fileID: 4685759372077759794, guid: 7103330d91aa0844cabf9006d2688a9e, type: 3}
   m_blackCube: {fileID: 5044446375974808383, guid: 6c4443031847a7e499350e7fd122a740, type: 3}
   m_floor: {fileID: 3986918863259228873, guid: fb91d19dbd780824da1a6f3d003c6883, type: 3}
-  m_height: 50
-  m_width: 50
+  m_height: 40
+  m_width: 40
   m_iterations: 10
   m_density: 0.5
 --- !u!4 &1219818502
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pink: {fileID: 2100000, guid: 1f05c5fd437cbeb44889f1a36cca4176, type: 2}
-  m_black: {fileID: 2100000, guid: bb5c90c2bb5237c4790974d2fb117949, type: 2}
+  m_grey: {fileID: 2100000, guid: 4468a1d7fac1c584e931de8047a994bf, type: 2}
   m_pbVertices: []
 --- !u!64 &1219818507
 MeshCollider:
@@ -456,6 +456,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bcf2b2fcac5937439a743f1b42ad61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!114 &1387188449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pink: {fileID: 0}
-  m_black: {fileID: 0}
+  m_grey: {fileID: 0}
   m_pbVertices: []
 --- !u!1 &1760100517
 GameObject:

@@ -41,11 +41,14 @@ public class CellularAutomata : MonoBehaviour
             }
         }
 
-
         m_MS.MarchSquares();
-        m_MS.CreateMesh();
-        //m_MS.CreateSecondMesh();
+
+        
+        // stuff I don't need anymore/yet?
+        
+        //m_MS.CreateMesh();
         //m_MS.CreateProBuilderMesh();
+        //m_MS.CreateSecondMesh();
 
         //InstantiateGrid();
 
@@ -59,7 +62,7 @@ public class CellularAutomata : MonoBehaviour
         m_tempNewGrid = new int[m_width, m_height];
 
 
-        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, -1, (m_height / 2) - 0.5f), Quaternion.identity);
+        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
         floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
 
 

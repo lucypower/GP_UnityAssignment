@@ -8,6 +8,64 @@ using UnityEngine.ProBuilder.MeshOperations;
 
 public class CellularAutomataTest : MonoBehaviour
 {
+    ProBuilderMesh m_mesh;
+    public Vector3[] points = new Vector3[32];
+
+    private void Start()
+    {
+        var go = new GameObject()
+        {
+            name = "Walls"
+        };
+
+        m_mesh = go.AddComponent<ProBuilderMesh>();
+
+        Rebuild();
+    }
+
+    void Rebuild()
+    {
+        // Create a circle of points with randomized distance from origin.
+        //List<Vector3> points = new List<Vector3>();
+
+        //for (int i = 0, c = points.Length; i < c; i++)
+        //{
+        //    float angle = Mathf.Deg2Rad * ((i / (float)c) * 360f);
+        //    //points.Add(new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * Random.Range(1.5f, 2));
+        //    points[i] = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * Random.Range(1.5f, 2);
+        //}
+
+        //CreateShapeFromPolygon is an extension method that sets the pb_Object mesh data with vertices and faces
+        //generated from a polygon path.
+
+
+        points[0] = new Vector3(0, 0, 1);
+        points[1] = new Vector3(0, 0, 0);
+        points[2] = new Vector3(1, 0, 0);
+        points[3] = new Vector3(1, 0, 1);
+
+        m_mesh.CreateShapeFromPolygon(points, 1, false);
+    }
+
+    void delete()
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //public class MeshExtrusion
     //{
     //    public class Edge
@@ -289,56 +347,10 @@ public class CellularAutomataTest : MonoBehaviour
 
 
 
-    int m_width = 5;
-    int m_height = 5;
-
-    ProBuilderMesh m_mesh;
-    public Vector3[] points = new Vector3[32];
-
-    private void Start()
-    {
-        var go = new GameObject()
-        {
-            name = "Walls"
-        };
-
-        m_mesh = go.AddComponent<ProBuilderMesh>();
-
-        Rebuild();
-    }
-
-    //void creatething()
-    //{
-    //    Vector3[] points = new Vector3[m_width * m_height];
-
-    //    for (int i = 0; i < m_width; i++)
-    //    {
-    //        for (int j = 0; j < m_height; j++)
-    //        {
-    //            points[i] = new Vector3(i, 0, j);
-    //        }
-    //    }
-
-    //    m_mesh.CreateShapeFromPolygon(points, 1, false);
-    //}
-
-    void Rebuild()
-    {
-        // Create a circle of points with randomized distance from origin.
-        //List<Vector3> points = new List<Vector3>();
+    //int m_width = 5;
+    //int m_height = 5;
 
 
-        for (int i = 0, c = points.Length; i < c; i++)
-        {
-            float angle = Mathf.Deg2Rad * ((i / (float)c) * 360f);
-            //points.Add(new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * Random.Range(1.5f, 2));
-            points[i] = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * Random.Range(1.5f, 2);
-        }
-
-        //CreateShapeFromPolygon is an extension method that sets the pb_Object mesh data with vertices and faces
-        //generated from a polygon path.
-        m_mesh.CreateShapeFromPolygon(points, 1, false);
-    }
 
     //IList<Vector3> m_vertices = new List<Vector3>();
     //List<int> m_triangles = new List<int>();
