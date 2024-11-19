@@ -41,8 +41,11 @@ public class CellularAutomata : MonoBehaviour
             }
         }
 
+
         m_MS.MarchSquares();
         m_MS.CreateMesh();
+        //m_MS.CreateSecondMesh();
+        //m_MS.CreateProBuilderMesh();
 
         //InstantiateGrid();
 
@@ -72,8 +75,9 @@ public class CellularAutomata : MonoBehaviour
                 {
                     m_grid[i, j] = UnityEngine.Random.value > m_density ? 0 : 1;
                 }
+
             }
-        }        
+        }
     }
 
     public void IterateGrid()
@@ -127,28 +131,4 @@ public class CellularAutomata : MonoBehaviour
         return neighbouringWalls;
     }
 
-    //public void InstantiateGrid()
-    //{
-    //    for (int i = 0; i < m_width; i++)
-    //    {
-    //        for (int j = 0; j < m_height; j++)
-    //        {
-    //            if (i == 0 || j == 0 || i == m_width - 1 || j == m_height - 1)
-    //            {
-    //                m_grid[i, j] = 1;
-    //            }
-
-    //            if (m_grid[i, j] == 1)
-    //            {
-    //                Instantiate(m_blackCube, new Vector3(i, 0, j), Quaternion.identity);
-    //            }
-    //            else
-    //            {
-    //                //Instantiate(m_whiteCube, new Vector3(i, 0, j), Quaternion.identity);
-
-    //                m_openSpaces.Add(new Vector3(i, 1, j));
-    //            }
-    //        }
-    //    }
-    //}
 }
