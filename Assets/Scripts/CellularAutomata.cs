@@ -6,6 +6,7 @@ using UnityEngine;
 public class CellularAutomata : MonoBehaviour
 {
     MarchingSquares m_MS;
+    [SerializeField] CameraController m_camera;
 
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
@@ -41,6 +42,8 @@ public class CellularAutomata : MonoBehaviour
             }
         }
 
+        FindOpenSpaces();
+
         m_MS.MarchSquares();
         m_MS.CombinePBMeshes();
 
@@ -48,8 +51,9 @@ public class CellularAutomata : MonoBehaviour
         // stuff I don't need anymore/yet?
 
 
-        //GameManager gM = GetComponent<GameManager>();
-        //gM.SpawnPlayer();
+        GameManager gM = GetComponent<GameManager>();
+        gM.SpawnPlayer();
+        m_camera.FindPlayer();
     }
 
     public void GenerateGrid()
@@ -93,7 +97,7 @@ public class CellularAutomata : MonoBehaviour
                 }
                 else
                 {
-                    m_tempNewGrid[i, j] = 0;
+                    m_tempNewGrid[i, j] = 0;                    
                 }
             }
         }
@@ -130,4 +134,19 @@ public class CellularAutomata : MonoBehaviour
         return neighbouringWalls;
     }
 
+    public void FindOpenSpaces()
+    {
+        for (int i = 0; i < m_width; i++)
+        {
+            for (int j = 0; j < m_height; j++)
+            {
+                int neighbours = GetNeighbouringWallCount(i, j);
+
+                if (m_grid[i, j] == 0 && neighbours == 0)
+                {
+                    m_openSpaces.Add(new Vector3(i, .5f, j));
+                }
+            }
+        }
+    }
 }

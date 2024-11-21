@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform m_player;
 
-    Vector3 m_offset = new Vector3(0, 10, 0);
+    Vector3 m_offset;
 
     private void Update()
     {
@@ -17,6 +17,6 @@ public class CameraController : MonoBehaviour
     {
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
-        m_offset = new Vector3(0, 10, -5);
+        m_offset = new Vector3(0, 6.5f, -3);
     }
 }
