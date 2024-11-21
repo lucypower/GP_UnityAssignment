@@ -11,7 +11,7 @@ public class CellularAutomata : MonoBehaviour
 
     [HideInInspector] public List<Vector3> m_openSpaces = new List<Vector3>();
 
-    [SerializeField] GameObject m_whiteCube, m_blackCube, m_floor;
+    [SerializeField] GameObject m_floor;
 
     public int m_height, m_width, m_iterations;
     [SerializeField] float m_density;
@@ -42,15 +42,11 @@ public class CellularAutomata : MonoBehaviour
         }
 
         m_MS.MarchSquares();
+        m_MS.CombinePBMeshes();
 
         
         // stuff I don't need anymore/yet?
-        
-        //m_MS.CreateMesh();
-        //m_MS.CreateProBuilderMesh();
-        //m_MS.CreateSecondMesh();
 
-        //InstantiateGrid();
 
         //GameManager gM = GetComponent<GameManager>();
         //gM.SpawnPlayer();
