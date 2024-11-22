@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     InputAction m_move;
 
     Rigidbody m_RB;
-    Camera m_camera;
+    [SerializeField] Camera m_camera;
 
     Vector2 m_moveDirection;
 
@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         m_IA = new PlayerInputActions();
         m_RB = GetComponent<Rigidbody>();
-        m_camera = GameObject.Find("Camera").GetComponent<Camera>();
     }
 
     private void OnEnable()
@@ -31,13 +30,35 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        m_moveDirection = m_move.ReadValue<Vector2>();
+        Vector2 moveDirection = m_move.ReadValue<Vector2>();
 
-        if (m_moveDirection.x != 0 || m_moveDirection.y != 0)
-        {
-            Vector3 rotateDirection = Vector3.RotateTowards(transform.forward, new Vector3(m_moveDirection.x, 0, m_moveDirection.y), 10, 0);
-            transform.rotation = Quaternion.LookRotation(rotateDirection);
-        }
+        Vector3 mousePosition = Mouse.current.position.ReadValue();
+        mousePosition.y = Mathf.Clamp(mousePosition.y, 0, 0);
+
+        transform.rotation = Quaternion.Euler(-mousePosition.y, mousePosition.x, 0);
+
+        Vector3 camForward = m_camera.transform.forward;
+        Vector3 camRight = m_camera.transform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward = camForward.normalized;
+        camRight = camRight.normalized;
+
+        m_moveDirection = camForward * moveDirection.x + camRight * moveDirection.y;
+
+
+
+
+
+
+
+        //if (m_moveDirection.x != 0 || m_moveDirection.y != 0)
+        //{
+        //    Vector3 rotateDirection = Vector3.RotateTowards(transform.forward, new Vector3(m_moveDirection.x, 0, m_moveDirection.y), 10, 0);
+        //    transform.rotation = Quaternion.LookRotation(rotateDirection);
+        //}
     }
 
     private void FixedUpdate()

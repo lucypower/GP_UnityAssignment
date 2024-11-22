@@ -24,6 +24,8 @@ public class MarchingSquares : MonoBehaviour
     List<ProBuilderMesh> m_meshesToCombine = new List<ProBuilderMesh>();
     List<ProBuilderMesh> m_combinedMesh;
 
+    public bool m_combineMeshes;
+
     private void Awake()
     {
         m_CA = GetComponent<CellularAutomata>();

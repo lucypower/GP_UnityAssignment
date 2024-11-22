@@ -45,9 +45,12 @@ public class CellularAutomata : MonoBehaviour
         FindOpenSpaces();
 
         m_MS.MarchSquares();
-        m_MS.CombinePBMeshes();
 
-        
+        if (m_MS.m_combineMeshes)
+        {
+            m_MS.CombinePBMeshes();
+        }
+
         // stuff I don't need anymore/yet?
 
 

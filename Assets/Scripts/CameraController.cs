@@ -17,6 +17,6 @@ public class CameraController : MonoBehaviour
     {
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
-        m_offset = new Vector3(0, 6.5f, -3);
+        m_offset = new Vector3(0, 10, 0);
     }
 }

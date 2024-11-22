@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
         Instantiate(m_player, m_CA.m_openSpaces[random], Quaternion.identity);
 
-        CameraController camera = GameObject.Find("Camera").GetComponent<CameraController>();
+        CameraController camera = GameObject.Find("MiniMap Camera").GetComponent<CameraController>();
         camera.FindPlayer();
     }
 }
