@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     PlayerInputActions m_IA;
     InputAction m_move;
     InputAction m_mousePosition;
+    InputAction m_action;
 
     Rigidbody m_RB;
     [SerializeField] Camera m_camera;
@@ -41,12 +42,31 @@ public class PlayerController : MonoBehaviour
 
         m_mousePosition = m_IA.Player.LookAt;
         m_mousePosition.Enable();
+
+        m_action = m_IA.Player.Action;
+        m_action.Enable();
     }
 
     private void Update()
     {
         Movement();
         Camera();
+
+        Debug.DrawRay(m_camera.transform.position, m_camera.transform.forward * 1, Color.red);
+
+        if (m_action.triggered)
+        {
+            RaycastHit hit;
+            
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 1))
+            {
+                if (hit.collider.CompareTag("Wall"))
+                {
+                    Destroy(hit.collider.gameObject);
+                    Debug.Log("hit wall");
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -77,5 +97,6 @@ public class PlayerController : MonoBehaviour
     {
         m_move.Disable();
         m_mousePosition.Disable();
+        m_action.Disable();
     }
 }

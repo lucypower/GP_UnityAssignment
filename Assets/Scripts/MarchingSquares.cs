@@ -108,11 +108,17 @@ public class MarchingSquares : MonoBehaviour
                 localTriangles = new int[]
                 { 0, 1, 2};
                 break;
-            case 5:
+            case 5: //1 and 4
                 localVertices = new Vector3[]
-                { new Vector3(0, 0.5f), new Vector3(0, 1), new Vector3(0.5f, 1), new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
+                { new Vector3(0, 1f), new Vector3(0, 0.5f), new Vector3(0.5f, 1) };
+                //{ new Vector3(0, 0.5f), new Vector3(0, 1), new Vector3(0.5f, 1), new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
 
-                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, false); // TODO: case 5 and 10 don't spawn in 
+                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, true); 
+
+                localVertices = new Vector3[]
+                { new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
+
+                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, false); 
 
                 localTriangles = new int[]
                 { 0, 1, 2, 3, 4, 5};
@@ -153,11 +159,18 @@ public class MarchingSquares : MonoBehaviour
                 localTriangles = new int[]
                 { 1, 0, 2, 0, 3, 2};
                 break;
-            case 10:
+            case 10: //2 and 8
                 localVertices = new Vector3[]
-                { new Vector3(0, 0), new Vector3(0, 0.5f), new Vector3(0.5f, 0), new Vector3(1, 1), new Vector3(0.5f, 1), new Vector3(1, 0.5f) };
+                { new Vector3(1, 1), new Vector3(1, 0.5f), new Vector3(0.5f, 1) };
+                
+                //{ new Vector3(0, 0), new Vector3(0, 0.5f), new Vector3(0.5f, 0), new Vector3(1, 1), new Vector3(0.5f, 1), new Vector3(1, 0.5f) };
 
                 CreateProBuilderShape(localVertices, "case 10", offsetX, offsetY, false);
+
+                localVertices = new Vector3[]
+                { new Vector3(0, 0.5f), new Vector3(0, 0), new Vector3(0.5f, 0) };
+
+                CreateProBuilderShape(localVertices, "case 10", offsetX, offsetY, true);
 
                 localTriangles = new int[]
                 { 0, 1, 2, 5, 4, 3};
@@ -227,7 +240,8 @@ public class MarchingSquares : MonoBehaviour
     {
         var go = new GameObject()
         {
-            name = triName
+            name = triName,
+            tag = "Wall"
         };
 
         m_pbShapes.Add(go);

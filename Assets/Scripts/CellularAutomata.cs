@@ -10,7 +10,7 @@ public class CellularAutomata : MonoBehaviour
 
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
-    [HideInInspector] public List<Vector3> m_openSpaces = new List<Vector3>();
+    /*[HideInInspector]*/ public List<Vector3> m_openSpaces = new List<Vector3>();
 
     [SerializeField] GameObject m_floor;
 
@@ -56,6 +56,7 @@ public class CellularAutomata : MonoBehaviour
 
         GameManager gM = GetComponent<GameManager>();
         gM.SpawnPlayer();
+        gM.SpawnPickups();
 
         foreach (CameraController cam in m_cameras)
         {

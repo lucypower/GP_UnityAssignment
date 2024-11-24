@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 1219818506}
   m_Layer: 0
   m_Name: ~Manager~
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,8 +500,8 @@ MonoBehaviour:
   - {fileID: 1010434043}
   m_openSpaces: []
   m_floor: {fileID: 3986918863259228873, guid: fb91d19dbd780824da1a6f3d003c6883, type: 3}
-  m_height: 100
-  m_width: 100
+  m_height: 50
+  m_width: 50
   m_iterations: 10
   m_density: 0.5
 --- !u!4 &1219818502
@@ -532,6 +532,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 8571412742218056361, guid: 7f77b6559b2763e46ab5b90692df7840, type: 3}
+  m_pickup: {fileID: 3632807739440450693, guid: 07d814dbdb932064c809b4d046d28109, type: 3}
+  m_pickupsInMap: []
+  m_pickupsCollected: 0
 --- !u!23 &1219818504
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -839,7 +842,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
