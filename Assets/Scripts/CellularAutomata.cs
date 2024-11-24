@@ -6,7 +6,7 @@ using UnityEngine;
 public class CellularAutomata : MonoBehaviour
 {
     MarchingSquares m_MS;
-    [SerializeField] CameraController m_camera;
+    [SerializeField] CameraController[] m_cameras;
 
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
@@ -56,7 +56,11 @@ public class CellularAutomata : MonoBehaviour
 
         GameManager gM = GetComponent<GameManager>();
         gM.SpawnPlayer();
-        m_camera.FindPlayer();
+
+        foreach (CameraController cam in m_cameras)
+        {
+            cam.FindPlayer();
+        }
     }
 
     public void GenerateGrid()

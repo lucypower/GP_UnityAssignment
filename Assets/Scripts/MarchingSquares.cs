@@ -25,6 +25,7 @@ public class MarchingSquares : MonoBehaviour
     List<ProBuilderMesh> m_combinedMesh;
 
     public bool m_combineMeshes;
+    public int m_wallHeight;
 
     private void Awake()
     {
@@ -237,11 +238,13 @@ public class MarchingSquares : MonoBehaviour
 
         go.GetComponent<MeshRenderer>().material = m_grey;
 
-        go.GetComponent<ProBuilderMesh>().CreateShapeFromPolygon(vertices, 1, false);
+        go.GetComponent<ProBuilderMesh>().CreateShapeFromPolygon(vertices, m_wallHeight, false);
+
+        go.AddComponent<MeshCollider>();
 
         if(isWeird)
         {
-            go.transform.position = new Vector3(offsetX, 1, offsetY);
+            go.transform.position = new Vector3(offsetX, m_wallHeight, offsetY);
         }
         else
         {

@@ -40,7 +40,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""LookAt"",
                     ""type"": ""Value"",
                     ""id"": ""6c36ee7a-f6a9-4cd0-98c3-e6438e658789"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -105,10 +105,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""633b4caf-7839-4158-a77c-e999a4798db8"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""LookAt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

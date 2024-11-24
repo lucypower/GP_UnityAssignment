@@ -8,66 +8,74 @@ public class PlayerController : MonoBehaviour
 {
     PlayerInputActions m_IA;
     InputAction m_move;
+    InputAction m_mousePosition;
 
     Rigidbody m_RB;
     [SerializeField] Camera m_camera;
 
-    Vector2 m_moveDirection;
+    Vector3 m_moveDirection;
 
     public float m_moveSpeed;
+
+    [SerializeField] Transform m_playerOrientation;
+    float m_XRotation, m_YRotation;
 
     private void Awake()
     {
         m_IA = new PlayerInputActions();
         m_RB = GetComponent<Rigidbody>();
+
+        m_camera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnEnable()
     {
         m_move = m_IA.Player.Move;
         m_move.Enable();
+
+        m_mousePosition = m_IA.Player.LookAt;
+        m_mousePosition.Enable();
     }
 
     private void Update()
     {
-        Vector2 moveDirection = m_move.ReadValue<Vector2>();
-
-        Vector3 mousePosition = Mouse.current.position.ReadValue();
-        mousePosition.y = Mathf.Clamp(mousePosition.y, 0, 0);
-
-        transform.rotation = Quaternion.Euler(-mousePosition.y, mousePosition.x, 0);
-
-        Vector3 camForward = m_camera.transform.forward;
-        Vector3 camRight = m_camera.transform.right;
-
-        camForward.y = 0;
-        camRight.y = 0;
-
-        camForward = camForward.normalized;
-        camRight = camRight.normalized;
-
-        m_moveDirection = camForward * moveDirection.x + camRight * moveDirection.y;
-
-
-
-
-
-
-
-        //if (m_moveDirection.x != 0 || m_moveDirection.y != 0)
-        //{
-        //    Vector3 rotateDirection = Vector3.RotateTowards(transform.forward, new Vector3(m_moveDirection.x, 0, m_moveDirection.y), 10, 0);
-        //    transform.rotation = Quaternion.LookRotation(rotateDirection);
-        //}
+        Movement();
+        Camera();
     }
 
     private void FixedUpdate()
     {
-        m_RB.velocity = new Vector3(m_moveDirection.x * m_moveSpeed, 0, m_moveDirection.y * m_moveSpeed);
+        m_RB.MovePosition(transform.position + m_moveSpeed * Time.deltaTime * m_moveDirection);
+    }
+
+    public void Movement()
+    {
+        Vector2 movement = m_move.ReadValue<Vector2>();
+
+        m_moveDirection = m_playerOrientation.forward * movement.y + m_playerOrientation.right * movement.x;
+    }
+
+    public void Camera()
+    {
+        Vector2 mousePosition = m_mousePosition.ReadValue<Vector2>();
+
+        m_YRotation += mousePosition.x * Time.deltaTime * 50;
+        m_XRotation -= mousePosition.y * Time.deltaTime * 50;
+        m_XRotation = Mathf.Clamp(m_XRotation, -90, 90);
+
+        m_camera.transform.rotation = Quaternion.Euler(m_XRotation, m_YRotation, 0);
+        transform.rotation = Quaternion.Euler(0, m_YRotation, 0);
     }
 
     private void OnDisable()
     {
         m_move.Disable();
+        m_mousePosition.Disable();
     }
 }
