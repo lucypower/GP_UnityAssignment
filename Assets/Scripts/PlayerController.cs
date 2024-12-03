@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,9 +11,13 @@ public class PlayerController : MonoBehaviour
     InputAction m_move;
     InputAction m_mousePosition;
     InputAction m_action;
+    InputAction m_restart;
+    InputAction m_map;
+    bool m_mapOpen;
 
     Rigidbody m_RB;
     [SerializeField] Camera m_camera;
+    public GameObject m_mapObject;
 
     Vector3 m_moveDirection;
 
@@ -27,6 +32,9 @@ public class PlayerController : MonoBehaviour
         m_RB = GetComponent<Rigidbody>();
 
         m_camera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+
+        m_mapObject = GameObject.FindGameObjectWithTag("Map");
+        m_mapObject.SetActive(false);
     }
 
     private void Start()
@@ -45,6 +53,12 @@ public class PlayerController : MonoBehaviour
 
         m_action = m_IA.Player.Action;
         m_action.Enable();
+
+        m_map = m_IA.Player.Map;
+        m_map.Enable();
+        
+        m_restart = m_IA.Player.Restart;
+        m_restart.Enable();
     }
 
     private void Update()
@@ -66,6 +80,25 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("hit wall");
                 }
             }
+        }
+
+        if (m_map.triggered)
+        {
+            if (!m_mapOpen)
+            {
+                m_mapOpen = true;
+                m_mapObject.SetActive(true);
+            }
+            else
+            {
+                m_mapOpen = false;
+                m_mapObject.SetActive(false);
+            }
+        }
+
+        if (m_restart.IsPressed())
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -98,5 +131,7 @@ public class PlayerController : MonoBehaviour
         m_move.Disable();
         m_mousePosition.Disable();
         m_action.Disable();
+        m_map.Disable();
+        m_restart.Disable();
     }
 }

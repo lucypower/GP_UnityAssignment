@@ -29,7 +29,9 @@ public class CameraController : MonoBehaviour
         {
             m_playerCameraPos = GameObject.FindGameObjectWithTag("PlayerCamHolder").GetComponent<Transform>();
         }
-
-        m_offset = new Vector3(0, 10, 0);
+        else if (gameObject.name == "MiniMap Camera")
+        {
+            m_offset = new Vector3(0, 10, 0);
+        }
     }
 }

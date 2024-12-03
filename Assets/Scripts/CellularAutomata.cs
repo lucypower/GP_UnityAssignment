@@ -7,6 +7,7 @@ public class CellularAutomata : MonoBehaviour
 {
     MarchingSquares m_MS;
     [SerializeField] CameraController[] m_cameras;
+    [SerializeField] Camera m_mapCamera;
 
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
@@ -51,17 +52,17 @@ public class CellularAutomata : MonoBehaviour
             m_MS.CombinePBMeshes();
         }
 
-        // stuff I don't need anymore/yet?
 
-
-        GameManager gM = GetComponent<GameManager>();
-        gM.SpawnPlayer();
-        gM.SpawnPickups();
+        //GameManager gM = GetComponent<GameManager>();
+        //gM.SpawnPlayer();
+        //gM.SpawnPickups();
 
         foreach (CameraController cam in m_cameras)
         {
             cam.FindPlayer();
         }
+
+        m_mapCamera.transform.position = new Vector3((m_width / 2) - 0.5f, (m_width + m_height) / 2, (m_height / 2) - 0.5f);
     }
 
     public void GenerateGrid()
@@ -71,7 +72,10 @@ public class CellularAutomata : MonoBehaviour
 
 
         GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
+        //GameObject roof = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, m_MS.m_wallHeight, (m_height / 2) - 0.5f), Quaternion.identity);
         floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        //roof.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        //roof.layer = 1;
 
 
         for (int i = 0; i < m_width; i++)

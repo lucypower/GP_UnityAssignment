@@ -11,17 +11,29 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Stats")]
 
+    [HideInInspector] public int m_pickupsToSpawn;
     [HideInInspector] public List<GameObject> m_pickupsInMap = new List<GameObject>();
     [HideInInspector] public int m_pickupsCollected;
 
     private void Awake()
     {
         m_CA = GetComponent<CellularAutomata>();        
+
+        m_pickupsToSpawn = (m_CA.m_width + m_CA.m_height) / 20;
+    }
+
+    private void Update()
+    {
+        if (m_pickupsCollected == m_pickupsToSpawn && m_pickupsInMap.Count == 0)
+        {
+            Debug.Log("GameWin");
+            Time.timeScale = 0;
+        }
     }
 
     public void SpawnPickups()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < m_pickupsToSpawn; i++)
         {
             int random = Random.Range(0, m_CA.m_openSpaces.Count - 1);
 

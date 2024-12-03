@@ -9,6 +9,7 @@ TagManager:
   - PlayerCamHolder
   - Wall
   - GameManager
+  - Map
   layers:
   - Default
   - TransparentFX
