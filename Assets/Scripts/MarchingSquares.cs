@@ -10,7 +10,6 @@ using UnityEngine.ProBuilder.MeshOperations;
 
 public class MarchingSquares : MonoBehaviour
 {
-    CellularAutomata m_CA;
     MeshFilter m_meshFilter;
     ProBuilderMesh m_pbMesh;
 
@@ -29,7 +28,6 @@ public class MarchingSquares : MonoBehaviour
 
     private void Awake()
     {
-        m_CA = GetComponent<CellularAutomata>();
         m_meshFilter = GetComponent<MeshFilter>();
 
         m_walls = new GameObject()
@@ -38,16 +36,16 @@ public class MarchingSquares : MonoBehaviour
         };
     }
 
-    public void MarchSquares()
+    public void MarchSquares(int width, int height, int[,] grid)
     {
-        for (int i = 0; i < m_CA.m_width - 1; i++)
+        for (int i = 0; i < width - 1; i++)
         {
-            for (int j = 0; j < m_CA.m_height - 1; j++)
+            for (int j = 0; j < height - 1; j++)
             {
-                float a = m_CA.m_grid[i, j];
-                float b = m_CA.m_grid[i + 1, j];
-                float c = m_CA.m_grid[i + 1, j + 1];
-                float d = m_CA.m_grid[i, j + 1];
+                float a = grid[i, j];
+                float b = grid[i + 1, j];
+                float c = grid[i + 1, j + 1];
+                float d = grid[i, j + 1];
 
                 CreateTriangles(GetHeight(a), GetHeight(b), GetHeight(c), GetHeight(d), i, j);
             }

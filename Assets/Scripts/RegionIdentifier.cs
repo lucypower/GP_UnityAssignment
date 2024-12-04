@@ -6,62 +6,62 @@ using UnityEngine;
 
 public class RegionIdentifier : MonoBehaviour
 {
-    CellularAutomata m_CA;
-
-    private void Awake()
+    public List<List<Vector3Int>> GetRegions(int width, int height, int[,] grid)
     {
-        m_CA = GetComponent<CellularAutomata>();
-    }
+        List<List<Vector3Int>> regions = new List<List<Vector3Int>>();
+        int[,] tilesChecked = new int[width, height];
 
-    List<List<Vector2>> GetRegions()
-    {
-        List<List<Vector2>> regions = new List<List<Vector2>>();
-        int[,] tilesChecked = new int[m_CA.m_width, m_CA.m_height];
-
-        for (int i = 0; i < m_CA.m_width; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < m_CA.m_height; j++)
+            for (int j = 0; j < height; j++)
             {
-               if (tilesChecked[i, j] == 0 && m_CA.m_grid[i, j] == 0)
-                {
-                    List<Vector2> region = GetRegionArea(i, j);
+               if (tilesChecked[i, j] == 0 && grid[i, j] == 0)
+               {
+                    List<Vector3Int> region = GetRegionArea(i, j, width, height, grid);
                     regions.Add(region);
 
-                    foreach (Vector2 tile in region)
+                    foreach (Vector3Int tile in region)
                     {
-                        tilesChecked[(int)tile.x, (int)tile.y] = 1;
+                        tilesChecked[tile.x, tile.z] = 1;
                     }
-                }
+               }
+               else
+               {
+                    tilesChecked[i, j] = 1;
+               }
             }
         }
-
         return regions;
     }
 
-    List<Vector2> GetRegionArea(int x, int y)
+    List<Vector3Int> GetRegionArea(int x, int z, int width, int height, int[,] grid)
     {
-        List<Vector2> tiles = new List<Vector2>();
-        int[,] tilesChecked = new int[m_CA.m_width, m_CA.m_height];
+        List<Vector3Int> tiles = new List<Vector3Int>();
+        int[,] tilesChecked = new int[width, height];
 
-        Queue<Vector2> tilesToCheck = new Queue<Vector2>();
-        tilesToCheck.Enqueue(new Vector2(x, y));
-        tilesChecked[x, y] = 1;
+        Queue<Vector3Int> tilesToCheck = new Queue<Vector3Int>();
+        tilesToCheck.Enqueue(new Vector3Int(x, 0, z));
+        tilesChecked[x, z] = 1;
 
         while (tilesToCheck.Count > 0)
         {
-            Vector2 tile = tilesToCheck.Dequeue();
+            Vector3Int tile = tilesToCheck.Dequeue();
             tiles.Add(tile);
 
-            for (int i = (int)tile.x - 1; i <= tile.x + 1; i++)
+            for (int i = tile.x - 1; i <= tile.x + 1; i++)
             {
-                for (int j = (int)tile.y - 1; j <= tile.y + 1; j++)
+                for (int j = tile.z - 1; j <= tile.z + 1; j++)
                 {
-                    if (i >= 0 && i < m_CA.m_width && j >= 0 && j < m_CA.m_height && (i == tile.x || j == tile.y))
+                    if (i >= 0 && i < width && j >= 0 && j < height && (i == tile.x || j == tile.z))
                     {
-                        if (tilesChecked[x,y] == 0 && m_CA.m_grid[x, y] == 0)
+                        if (tilesChecked[i, j] == 0 && grid[i, j] == 0)
                         {
-                            tilesChecked[x, y] = 1;
-                            tilesToCheck.Enqueue(new Vector2(x, y));
+                            tilesChecked[i, j] = 1;
+                            tilesToCheck.Enqueue(new Vector3Int(i, 0, j));
+                        }
+                        else
+                        {
+                            tilesChecked[i, j] = 1;
                         }
                     }
                 }

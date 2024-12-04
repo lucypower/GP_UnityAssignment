@@ -5,25 +5,16 @@ using UnityEngine;
 
 public class CellularAutomata : MonoBehaviour
 {
-    MarchingSquares m_MS;
-    [SerializeField] CameraController[] m_cameras;
-    [SerializeField] Camera m_mapCamera;
-
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
-    /*[HideInInspector]*/ public List<Vector3> m_openSpaces = new List<Vector3>();
+    [HideInInspector] public List<Vector3> m_openSpaces = new List<Vector3>();
 
     [SerializeField] GameObject m_floor;
 
     public int m_height, m_width, m_iterations;
     [SerializeField] float m_density;
 
-    private void Awake()
-    {
-        m_MS = GetComponent<MarchingSquares>();
-    }
-
-    private void Start()
+    public void StartCA()
     {
         GenerateGrid();
 
@@ -43,26 +34,7 @@ public class CellularAutomata : MonoBehaviour
             }
         }
 
-        FindOpenSpaces();
-
-        m_MS.MarchSquares();
-
-        if (m_MS.m_combineMeshes)
-        {
-            m_MS.CombinePBMeshes();
-        }
-
-
-        //GameManager gM = GetComponent<GameManager>();
-        //gM.SpawnPlayer();
-        //gM.SpawnPickups();
-
-        foreach (CameraController cam in m_cameras)
-        {
-            cam.FindPlayer();
-        }
-
-        m_mapCamera.transform.position = new Vector3((m_width / 2) - 0.5f, (m_width + m_height) / 2, (m_height / 2) - 0.5f);
+        //FindOpenSpaces();
     }
 
     public void GenerateGrid()
@@ -71,9 +43,9 @@ public class CellularAutomata : MonoBehaviour
         m_tempNewGrid = new int[m_width, m_height];
 
 
-        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
+        //GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
         //GameObject roof = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, m_MS.m_wallHeight, (m_height / 2) - 0.5f), Quaternion.identity);
-        floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        //floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
         //roof.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
         //roof.layer = 1;
 
@@ -144,6 +116,25 @@ public class CellularAutomata : MonoBehaviour
         }
 
         return neighbouringWalls;
+    }
+
+    public void FinaliseGrid()
+    {
+        for (int i = 0; i < m_width; i++)
+        {
+            for (int j = 0; j < m_height; j++)
+            {
+                if (i == 0 || j == 0 || i == m_width - 1 || j == m_height - 1)
+                {
+                    m_grid[i, j] = 1;
+                }
+
+                if (i == 0 && j == 0)
+                {
+                    m_grid[i, j] = 0;
+                }
+            }
+        }
     }
 
     public void FindOpenSpaces()
