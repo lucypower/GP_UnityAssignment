@@ -92,159 +92,80 @@ public class CorridorGenerator : MonoBehaviour
 
             if (connectionFound)
             {
-                ConnectRooms(bestA, bestB);
                 Debug.DrawLine(bestA, bestB, Color.green, 1000);
+
+                if (bestA.x < bestB.x)
+                {
+                    ConnectRooms(bestA, bestB);
+                }
+                else if (bestA.x > bestB.x)
+                {
+                    ConnectRooms(bestB, bestA);
+                }
+                else
+                {
+                    if (bestA.y <= bestB.y)
+                    {
+                        ConnectRooms(bestA, bestB);
+                    }
+                    else
+                    {
+                        ConnectRooms(bestB, bestA);
+                    }
+                }
             }
         }
     }
 
     public void ConnectRooms(Vector3Int startCoord, Vector3Int endCoord)
     {
-        Debug.Log("new connect rooms" + startCoord + " , " + endCoord);
+        float dx = endCoord.x - startCoord.x;
+        float dz = endCoord.z - startCoord.z;
 
-        if (startCoord.x < endCoord.x)
+        float gradientOfLine = dz / dx;
+        float c = endCoord.z - (gradientOfLine * endCoord.x);
+
+
+        if (startCoord.x == endCoord.x)
         {
-            Debug.Log("no inverse needed");
-
-            float dx = endCoord.x - startCoord.x;
-            float dz = endCoord.z - startCoord.z;
-
-            float gradientOfLine = dz / dx;
-            float c = endCoord.z - (gradientOfLine * endCoord.x);
-
+            for (int i = startCoord.z; i <= endCoord.z; i++)
+            {
+                m_CA.m_grid[startCoord.x, i] = 0;
+            }
+        }
+        else if (startCoord.z == endCoord.z)
+        {
+            for (int i = startCoord.x; i <= endCoord.x; i++)
+            {
+                m_CA.m_grid[i, startCoord.z] = 0;
+            }
+        }
+        else
+        {
             for (int i = startCoord.x; i <= endCoord.x; i++)
             {
                 int x = i;
                 float z = (gradientOfLine * x) + c;
-                Debug.Log("z: " + z);
 
                 z = Mathf.Round(z);
 
                 if (!float.IsNaN(z))
                 {
-                    Debug.Log("x: " + x + " / z: " + z);
-
                     m_CA.m_grid[x, (int)z] = 0;
-                    m_CA.m_grid[x - 1, (int)z] = 0;
                     m_CA.m_grid[x + 1, (int)z] = 0;
+                    m_CA.m_grid[x - 1, (int)z] = 0;
+
+                    if (gradientOfLine >= 1.01)
+                    {
+                        m_CA.m_grid[x, (int)z + 1] = 0;
+                        m_CA.m_grid[x, (int)z - 1] = 0;
+                        m_CA.m_grid[x - 1, (int)z - 1] = 0;
+                        m_CA.m_grid[x - 1, (int)z + 1] = 0;
+                        m_CA.m_grid[x + 1, (int)z - 1] = 0;
+                        m_CA.m_grid[x + 1, (int)z + 1] = 0;
+                    }
                 }
             }
-        }
-        else if (startCoord.x > endCoord.x)
-        {
-            Debug.Log("inverse needed");
-
-            float dx = startCoord.x - endCoord.x;
-            float dz = startCoord.z - endCoord.z;
-
-            float gradientOfLine = dz / dx;
-            float c = startCoord.z - (gradientOfLine * startCoord.x);
-
-            for (int i = endCoord.x; i <= startCoord.x; i++)
-            {
-                int x = i;
-                float z = (gradientOfLine * x) + c;
-                Debug.Log("z: " + z);
-
-                z = Mathf.Round(z);
-
-                if (!float.IsNaN(z))
-                {
-                    Debug.Log("x: " + x + " / z: " + z);
-
-                    m_CA.m_grid[x, (int)z] = 0;
-                    m_CA.m_grid[x - 1, (int)z] = 0;
-                    m_CA.m_grid[x + 1, (int)z] = 0;
-                }
-            }
-
-
-
-
-
-
-
-
-            //
-            //
-
-
-            //Debug.Log(m_CA.m_grid[(int)x, (int)z]);
-            //Debug.Log(lineCoord);
-
-
-
-
-        }
-
-
-
-
-        //if (startCoord.x < endCoord.x)
-        //{
-        //    float dx = endCoord.x - startCoord.x;
-        //    float dz = endCoord.z - startCoord.z;
-
-        //    float gradientOfLine = dz / dx;
-        //    float c = endCoord.z - (gradientOfLine * endCoord.x);
-
-        //    for (int i = startCoord.x; i <= endCoord.x; i++)
-        //    {
-        //        int x = i;
-        //        float z = (gradientOfLine * x) + c;
-        //        Debug.Log("z: " + z);
-
-        //        z = Mathf.Round(z);
-
-        //        if (!float.IsNaN(z))
-        //        {
-        //            Vector3Int lineCoord = new Vector3Int(x, 0, (int)z);
-        //            corridorCoords.Add(lineCoord);
-
-        //            Debug.Log("x: " + x + " / z: " + z);
-
-        //            m_CA.m_grid[lineCoord.x, lineCoord.z] = 0;
-        //            m_CA.m_grid[lineCoord.x - 1, lineCoord.z] = 0;
-        //            m_CA.m_grid[lineCoord.x + 1, lineCoord.z] = 0;
-        //        }
-        //    }
-
-        //    if (gradientOfLine == 0)
-        //    {
-        //        for (int i = startCoord.x; i <= endCoord.x; i++)
-        //        {
-        //            m_CA.m_grid[i, startCoord.y] = 0;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    float dx = startCoord.x - endCoord.x;
-        //    float dz = startCoord.z - endCoord.z;
-
-        //    float gradientOfLine = dz / dx;
-        //    float c = startCoord.z - (gradientOfLine * startCoord.x);
-
-        //    for (int i = endCoord.x; i <= startCoord.x; i++)
-        //    {
-        //        int x = i;
-        //        float z = (gradientOfLine * x) + c;
-        //        Debug.Log("z: " + z);
-
-        //        z = Mathf.Round(z);
-
-        //        if (!float.IsNaN(z))
-        //        {
-        //            Vector3Int lineCoord = new Vector3Int(x, 0, Mathf.RoundToInt(z));
-        //            corridorCoords.Add(lineCoord);
-
-        //            Debug.Log("x: " + x + " / z: " + z);
-
-        //            m_CA.m_grid[lineCoord.x, lineCoord.z] = 0;
-        //            m_CA.m_grid[lineCoord.x - 1, lineCoord.z] = 0;
-        //            m_CA.m_grid[lineCoord.x + 1, lineCoord.z] = 0;
-        //        }
-        //    }
-        //}
+        }        
     }
 }

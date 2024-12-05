@@ -358,8 +358,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_openSpaces: []
   m_floor: {fileID: 3986918863259228873, guid: fb91d19dbd780824da1a6f3d003c6883, type: 3}
-  m_height: 30
-  m_width: 30
+  m_height: 75
+  m_width: 75
   m_iterations: 10
   m_density: 0.5
 --- !u!4 &2075150122

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] CameraController[] m_cameras;
     [SerializeField] Camera m_mapCamera;
 
+    int corridorIteration = 0;
+
     private void Awake()
     {
         m_CA = GetComponent<CellularAutomata>();
@@ -27,14 +30,7 @@ public class MapGenerator : MonoBehaviour
     {
         m_CA.StartCA();
 
-        List<List<Vector3Int>> regions = m_RI.GetRegions(m_CA.m_width, m_CA.m_height, m_CA.m_grid);
-        List<List<Vector3Int>> edges = m_CG.GetAllRegionEdges(regions, m_CA.m_width, m_CA.m_height, m_CA.m_grid);
-
-        if (regions.Count > 1)
-        {
-            m_CG.FindConnectingRooms(edges, m_CA.m_grid);
-            m_CA.FinaliseGrid();
-        }
+        GetRegionsAndEdges();
 
         m_MS.MarchSquares(m_CA.m_width, m_CA.m_height, m_CA.m_grid);
 
@@ -59,4 +55,52 @@ public class MapGenerator : MonoBehaviour
 
         
     }
+
+    void GetRegionsAndEdges()
+    {
+        List<List<Vector3Int>> regions = m_RI.GetRegions(m_CA.m_width, m_CA.m_height, m_CA.m_grid);
+
+        List<List<Vector3Int>> regionsToRemove = new List<List<Vector3Int>>();
+
+        foreach (List<Vector3Int> region in regions)
+        {
+            if (region.Count < 35)
+            {
+                for (int i = 0; i < region.Count; i++)
+                {
+                    m_CA.m_grid[region[i].x, region[i].z] = 1;
+                }
+
+                region.Clear();
+                regionsToRemove.Add(region);
+            }
+        }
+
+        for (int i = 0; i < regionsToRemove.Count; i++)
+        {
+            regions.Remove(regionsToRemove[i]);
+        }
+
+        List<List<Vector3Int>> edges = m_CG.GetAllRegionEdges(regions, m_CA.m_width, m_CA.m_height, m_CA.m_grid);
+
+        if (regions.Count > 1)
+        {
+            m_CG.FindConnectingRooms(edges, m_CA.m_grid);
+            m_CA.FinaliseGrid();
+        }
+
+        corridorIteration++;
+        Debug.Log(regions.Count);
+
+        if (regions.Count > 1)
+        {
+            regions.Clear();
+            edges.Clear();
+
+            if (corridorIteration <= 3)
+            {
+                GetRegionsAndEdges();
+            }
+        }
+    }   
 }

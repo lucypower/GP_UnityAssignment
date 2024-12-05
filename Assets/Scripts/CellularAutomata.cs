@@ -43,9 +43,9 @@ public class CellularAutomata : MonoBehaviour
         m_tempNewGrid = new int[m_width, m_height];
 
 
-        //GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
+        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) , 0, (m_height / 2)), Quaternion.identity);
         //GameObject roof = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, m_MS.m_wallHeight, (m_height / 2) - 0.5f), Quaternion.identity);
-        //floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        floor.transform.localScale += new Vector3(m_width , 0, m_height );
         //roof.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
         //roof.layer = 1;
 
@@ -129,9 +129,9 @@ public class CellularAutomata : MonoBehaviour
                     m_grid[i, j] = 1;
                 }
 
-                if (i == 0 && j == 0)
+                if ((i == 0 && j == 0) || (i == 0 && j == m_width - 1))
                 {
-                    m_grid[i, j] = 0;
+                    //m_grid[i, j] = 0;
                 }
             }
         }

@@ -31,6 +31,15 @@ public class RegionIdentifier : MonoBehaviour
                }
             }
         }
+
+        foreach (List<Vector3Int> region in regions)
+        {
+            if (region.Count < 20)
+            {
+
+            }
+        }
+
         return regions;
     }
 
@@ -69,5 +78,5 @@ public class RegionIdentifier : MonoBehaviour
         }
 
         return tiles;
-    }
+    }    
 }
