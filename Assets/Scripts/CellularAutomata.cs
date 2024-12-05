@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CellularAutomata : MonoBehaviour
 {
-    MarchingSquares m_MS;
-
     [HideInInspector] public int[,] m_grid, m_tempNewGrid;
 
     [HideInInspector] public List<Vector3> m_openSpaces = new List<Vector3>();
@@ -16,12 +14,7 @@ public class CellularAutomata : MonoBehaviour
     public int m_height, m_width, m_iterations;
     [SerializeField] float m_density;
 
-    private void Awake()
-    {
-        m_MS = GetComponent<MarchingSquares>();
-    }
-
-    private void Start()
+    public void StartCA()
     {
         GenerateGrid();
 
@@ -41,15 +34,7 @@ public class CellularAutomata : MonoBehaviour
             }
         }
 
-        m_MS.MarchSquares();
-        m_MS.CombinePBMeshes();
-
-        
-        // stuff I don't need anymore/yet?
-
-
-        //GameManager gM = GetComponent<GameManager>();
-        //gM.SpawnPlayer();
+        //FindOpenSpaces();
     }
 
     public void GenerateGrid()
@@ -58,8 +43,11 @@ public class CellularAutomata : MonoBehaviour
         m_tempNewGrid = new int[m_width, m_height];
 
 
-        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, 0, (m_height / 2) - 0.5f), Quaternion.identity);
-        floor.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) , 0, (m_height / 2)), Quaternion.identity);
+        //GameObject roof = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, m_MS.m_wallHeight, (m_height / 2) - 0.5f), Quaternion.identity);
+        floor.transform.localScale += new Vector3(m_width , 0, m_height );
+        //roof.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
+        //roof.layer = 1;
 
 
         for (int i = 0; i < m_width; i++)
@@ -93,7 +81,7 @@ public class CellularAutomata : MonoBehaviour
                 }
                 else
                 {
-                    m_tempNewGrid[i, j] = 0;
+                    m_tempNewGrid[i, j] = 0;                    
                 }
             }
         }
@@ -130,4 +118,38 @@ public class CellularAutomata : MonoBehaviour
         return neighbouringWalls;
     }
 
+    public void FinaliseGrid()
+    {
+        for (int i = 0; i < m_width; i++)
+        {
+            for (int j = 0; j < m_height; j++)
+            {
+                if (i == 0 || j == 0 || i == m_width - 1 || j == m_height - 1)
+                {
+                    m_grid[i, j] = 1;
+                }
+
+                if ((i == 0 && j == 0) || (i == 0 && j == m_width - 1))
+                {
+                    //m_grid[i, j] = 0;
+                }
+            }
+        }
+    }
+
+    public void FindOpenSpaces()
+    {
+        for (int i = 0; i < m_width; i++)
+        {
+            for (int j = 0; j < m_height; j++)
+            {
+                int neighbours = GetNeighbouringWallCount(i, j);
+
+                if (m_grid[i, j] == 0 && neighbours == 0)
+                {
+                    m_openSpaces.Add(new Vector3(i, .5f, j));
+                }
+            }
+        }
+    }
 }

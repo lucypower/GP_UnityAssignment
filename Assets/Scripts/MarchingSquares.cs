@@ -10,7 +10,6 @@ using UnityEngine.ProBuilder.MeshOperations;
 
 public class MarchingSquares : MonoBehaviour
 {
-    CellularAutomata m_CA;
     MeshFilter m_meshFilter;
     ProBuilderMesh m_pbMesh;
 
@@ -24,9 +23,11 @@ public class MarchingSquares : MonoBehaviour
     List<ProBuilderMesh> m_meshesToCombine = new List<ProBuilderMesh>();
     List<ProBuilderMesh> m_combinedMesh;
 
+    public bool m_combineMeshes;
+    public int m_wallHeight;
+
     private void Awake()
     {
-        m_CA = GetComponent<CellularAutomata>();
         m_meshFilter = GetComponent<MeshFilter>();
 
         m_walls = new GameObject()
@@ -35,16 +36,16 @@ public class MarchingSquares : MonoBehaviour
         };
     }
 
-    public void MarchSquares()
+    public void MarchSquares(int width, int height, int[,] grid)
     {
-        for (int i = 0; i < m_CA.m_width - 1; i++)
+        for (int i = 0; i < width - 1; i++)
         {
-            for (int j = 0; j < m_CA.m_height - 1; j++)
+            for (int j = 0; j < height - 1; j++)
             {
-                float a = m_CA.m_grid[i, j];
-                float b = m_CA.m_grid[i + 1, j];
-                float c = m_CA.m_grid[i + 1, j + 1];
-                float d = m_CA.m_grid[i, j + 1];
+                float a = grid[i, j];
+                float b = grid[i + 1, j];
+                float c = grid[i + 1, j + 1];
+                float d = grid[i, j + 1];
 
                 CreateTriangles(GetHeight(a), GetHeight(b), GetHeight(c), GetHeight(d), i, j);
             }
@@ -105,11 +106,17 @@ public class MarchingSquares : MonoBehaviour
                 localTriangles = new int[]
                 { 0, 1, 2};
                 break;
-            case 5:
+            case 5: //1 and 4
                 localVertices = new Vector3[]
-                { new Vector3(0, 0.5f), new Vector3(0, 1), new Vector3(0.5f, 1), new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
+                { new Vector3(0, 1f), new Vector3(0, 0.5f), new Vector3(0.5f, 1) };
+                //{ new Vector3(0, 0.5f), new Vector3(0, 1), new Vector3(0.5f, 1), new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
 
-                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, false); // TODO: case 5 and 10 don't spawn in 
+                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, true); 
+
+                localVertices = new Vector3[]
+                { new Vector3(1, 0), new Vector3(0.5f, 0), new Vector3(1, 0.5f) };
+
+                CreateProBuilderShape(localVertices, "case 5", offsetX, offsetY, false); 
 
                 localTriangles = new int[]
                 { 0, 1, 2, 3, 4, 5};
@@ -150,11 +157,18 @@ public class MarchingSquares : MonoBehaviour
                 localTriangles = new int[]
                 { 1, 0, 2, 0, 3, 2};
                 break;
-            case 10:
+            case 10: //2 and 8
                 localVertices = new Vector3[]
-                { new Vector3(0, 0), new Vector3(0, 0.5f), new Vector3(0.5f, 0), new Vector3(1, 1), new Vector3(0.5f, 1), new Vector3(1, 0.5f) };
+                { new Vector3(1, 1), new Vector3(1, 0.5f), new Vector3(0.5f, 1) };
+                
+                //{ new Vector3(0, 0), new Vector3(0, 0.5f), new Vector3(0.5f, 0), new Vector3(1, 1), new Vector3(0.5f, 1), new Vector3(1, 0.5f) };
 
                 CreateProBuilderShape(localVertices, "case 10", offsetX, offsetY, false);
+
+                localVertices = new Vector3[]
+                { new Vector3(0, 0.5f), new Vector3(0, 0), new Vector3(0.5f, 0) };
+
+                CreateProBuilderShape(localVertices, "case 10", offsetX, offsetY, true);
 
                 localTriangles = new int[]
                 { 0, 1, 2, 5, 4, 3};
@@ -224,7 +238,8 @@ public class MarchingSquares : MonoBehaviour
     {
         var go = new GameObject()
         {
-            name = triName
+            name = triName,
+            tag = "Wall"
         };
 
         m_pbShapes.Add(go);
@@ -235,11 +250,13 @@ public class MarchingSquares : MonoBehaviour
 
         go.GetComponent<MeshRenderer>().material = m_grey;
 
-        go.GetComponent<ProBuilderMesh>().CreateShapeFromPolygon(vertices, 1, false);
+        go.GetComponent<ProBuilderMesh>().CreateShapeFromPolygon(vertices, m_wallHeight, false);
+
+        go.AddComponent<MeshCollider>();
 
         if(isWeird)
         {
-            go.transform.position = new Vector3(offsetX, 1, offsetY);
+            go.transform.position = new Vector3(offsetX, m_wallHeight, offsetY);
         }
         else
         {
