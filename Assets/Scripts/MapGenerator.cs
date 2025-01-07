@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -28,19 +29,27 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
+        
+    }
+
+    public void GenerateMap()
+    {
         m_CA.StartCA();
 
         GetRegionsAndEdges();
 
         m_MS.MarchSquares(m_CA.m_width, m_CA.m_height, m_CA.m_grid);
 
+
         if (m_MS.m_combineMeshes)
         {
             m_MS.CombinePBMeshes();
         }
+        m_CA.FindOpenSpaces();
 
         m_mapCamera.transform.position = new Vector3((m_CA.m_width / 2) - 0.5f, (m_CA.m_width + m_CA.m_height) / 2, (m_CA.m_height / 2) - 0.5f);
     }
+
 
     void OtherStuff()
     {

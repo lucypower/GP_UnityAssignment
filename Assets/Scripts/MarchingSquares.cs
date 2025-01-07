@@ -17,7 +17,7 @@ public class MarchingSquares : MonoBehaviour
     List<Vector3> m_vertices = new List<Vector3>();
     List<int> m_triangles = new List<int>();
 
-    GameObject m_walls;
+    [HideInInspector] public GameObject m_walls;
     public Material m_grey;
 
     List<ProBuilderMesh> m_meshesToCombine = new List<ProBuilderMesh>();
@@ -29,15 +29,15 @@ public class MarchingSquares : MonoBehaviour
     private void Awake()
     {
         m_meshFilter = GetComponent<MeshFilter>();
-
-        m_walls = new GameObject()
-        {
-            name = "Walls"
-        };
     }
 
     public void MarchSquares(int width, int height, int[,] grid)
     {
+        m_walls = new GameObject()
+        {
+            name = "Walls"
+        };
+
         for (int i = 0; i < width - 1; i++)
         {
             for (int j = 0; j < height - 1; j++)
@@ -244,7 +244,7 @@ public class MarchingSquares : MonoBehaviour
 
         m_pbShapes.Add(go);
 
-        go.transform.SetParent(transform);
+        go.transform.SetParent(m_walls.transform);
 
         m_pbMesh = go.AddComponent<ProBuilderMesh>();
 

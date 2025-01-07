@@ -12,7 +12,7 @@ public class CellularAutomata : MonoBehaviour
     [SerializeField] GameObject m_floor;
 
     public int m_height, m_width, m_iterations;
-    [SerializeField] float m_density;
+    public float m_density;
 
     public void StartCA()
     {
@@ -43,11 +43,8 @@ public class CellularAutomata : MonoBehaviour
         m_tempNewGrid = new int[m_width, m_height];
 
 
-        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) , 0, (m_height / 2)), Quaternion.identity);
-        //GameObject roof = Instantiate(m_floor, new Vector3((m_width / 2) - 0.5f, m_MS.m_wallHeight, (m_height / 2) - 0.5f), Quaternion.identity);
+        GameObject floor = Instantiate(m_floor, new Vector3((m_width / 2) - .5f, 0, (m_height / 2) - .5f), Quaternion.identity);
         floor.transform.localScale += new Vector3(m_width , 0, m_height );
-        //roof.transform.localScale += new Vector3(m_width - 1, 0, m_height - 1);
-        //roof.layer = 1;
 
 
         for (int i = 0; i < m_width; i++)

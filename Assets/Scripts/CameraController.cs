@@ -9,23 +9,30 @@ public class CameraController : MonoBehaviour
 
     Vector3 m_offset;
 
+    bool m_playerSpawned;
+
     private void Update()
     {
-        if (gameObject.name == "PlayerCamera")
+        if (m_playerSpawned)
         {
-            transform.position = m_playerCameraPos.position;
-        }
-        else
-        {
-            transform.position = m_player.position + m_offset;
+            if (gameObject.name == "Main Camera")
+            {
+                transform.position = m_playerCameraPos.position;
+            }
+            else
+            {
+                transform.position = m_player.position + m_offset;
+            }
         }
     }
 
     public void FindPlayer()
     {
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+        m_playerSpawned = true;
         
-        if (gameObject.name == "PlayerCamera")
+        if (gameObject.name == "Main Camera")
         {
             m_playerCameraPos = GameObject.FindGameObjectWithTag("PlayerCamHolder").GetComponent<Transform>();
         }
