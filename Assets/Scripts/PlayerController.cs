@@ -31,10 +31,7 @@ public class PlayerController : MonoBehaviour
         m_IA = new PlayerInputActions();
         m_RB = GetComponent<Rigidbody>();
 
-        m_camera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
-
-        m_mapObject = GameObject.FindGameObjectWithTag("Map");
-        m_mapObject.SetActive(false);
+        m_camera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     private void Start()
