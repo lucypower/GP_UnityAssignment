@@ -57,6 +57,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RespawnHiddenPickups(GameObject originalPickup)
+    {
+        m_pickupsInMap.Remove(originalPickup);
+
+        int random = Random.Range(0, m_CA.m_openSpaces.Count - 1);
+
+        m_pickupsInMap.Add(Instantiate(m_pickup, m_CA.m_openSpaces[random], Quaternion.identity));
+        m_CA.m_openSpaces.RemoveAt(random);
+
+        Destroy(originalPickup);
+    }
+
     public void SpawnPlayer()
     {
         int random = Random.Range(0, m_CA.m_openSpaces.Count - 1);

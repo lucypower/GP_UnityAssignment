@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -14,6 +15,13 @@ public class Pickup : MonoBehaviour
             gm.m_pickupsCollected++;
 
             Destroy(gameObject);
+        }
+
+        if (other.CompareTag("Wall"))
+        {
+            GameManager gm = GameObject.Find("Manager").GetComponent<GameManager>();
+
+            gm.RespawnHiddenPickups(gameObject);
         }
     }
 }
